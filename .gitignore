@@ -3,3 +3,10 @@
 /ShopOnWheels.WebAPI/appsettings.Development.json
 /ShopOnWheels.WebAPI/obj
 /ShopOnWheels.WebAPI/bin
+/ShopOnWheels.Services/obj
+/ShopOnWheels.Domain/obj
+/ShopOnWheels.Domain/bin
+/ShopOnWheels.Entities/bin
+/ShopOnWheels.Entities/obj
+/ShopOnWheels.Services/bin
+/ShopOnWheels.WebAPI/Efmigrationshistory.cs
