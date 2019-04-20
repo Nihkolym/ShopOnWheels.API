@@ -1,13 +1,15 @@
 ﻿using System;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using ShopOnWheels.Domain.Models.Base;
 using ShopOnWheels.Domain.Models.Order;
+using ShopOnWheels.Domain.Models.User;
 
 namespace ShopOnWheels.Domain
 {
-    public class ShopOnWheelsDbContext : DbContext
+    public class ShopOnWheelsDbContext : IdentityDbContext<User>
     {
         public DbSet<Product> Products { get; set; }
 
@@ -18,14 +20,52 @@ namespace ShopOnWheels.Domain
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(builder);
+          
+            builder.Entity<IdentityUserLogin<string>>().ToTable("AspNetUsers")//I have to declare the table name, otherwise IdentityUser will be created
+                .Property(c => c.ProviderKey).HasMaxLength(36).IsRequired();
+
+            builder.Entity<IdentityUserLogin<string>>().ToTable("AspNetUsers")//I have to declare the table name, otherwise IdentityUser will be created
+                .Property(c => c.LoginProvider).HasMaxLength(36).IsRequired();
+
+            builder.Entity<IdentityUserToken<string>>().ToTable("AspNetUserTokens")//I have to declare the table name, otherwise IdentityUser will be created
+               .Property(c => c.LoginProvider).HasMaxLength(36).IsRequired();
+
+            builder.Entity<IdentityRole>()
+               .Property(c => c.Name).HasMaxLength(36).IsRequired();
+
+            builder.Entity<User>()
+              .Property(c => c.UserName).HasMaxLength(36).IsRequired();
+
+            builder.Entity<User>()
+               .Property(user => user.Email)
+               .HasMaxLength(36);
 
             builder.Entity<Product>()
                 .Property(p => p.IsDeleted)
                 .HasColumnType("bit");
+
+            builder.Entity<User>()
+                .HasIndex(user => user.Email)
+                .IsUnique();
+
+            builder.Entity<User>()
+               .Property(p => p.LockoutEnabled)
+               .HasColumnType("bit");
+
+            builder.Entity<User>()
+               .Property(p => p.TwoFactorEnabled)
+               .HasColumnType("bit");
+
+            builder.Entity<User>()
+               .Property(p => p.EmailConfirmed)
+               .HasColumnType("bit");
+
+            builder.Entity<User>()
+               .Property(p => p.PhoneNumberConfirmed)
+               .HasColumnType("bit");
+            base.OnModelCreating(builder);
+
         }
-
-
     }
 }
 

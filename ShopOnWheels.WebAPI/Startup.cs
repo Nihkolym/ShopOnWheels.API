@@ -11,9 +11,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ShopOnWheels.Domain;
 using ShopOnWheels.Services.Extensions.DbContextProvider;
 using ShopOnWheels.WebAPI.Extensions;
+using ShopOnWheels.Services.Helpers;
 using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using ShopOnWheels.Domain.Identity;
 
 namespace ShopOnWheels.WebAPI
 {
@@ -51,6 +58,42 @@ namespace ShopOnWheels.WebAPI
 
             services.AddBusinessComponents();
 
+            services.AddAuthentication(o =>
+            {
+                o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    // укзывает, будет ли валидироваться издатель при валидации токена
+                    ValidateIssuer = true,
+                    // строка, представляющая издателя
+                    ValidIssuer = JWTOptions.ISSUER,
+
+                    // будет ли валидироваться потребитель токена
+                    ValidateAudience = true,
+                    // установка потребителя токена
+                    ValidAudience = JWTOptions.AUDIENCE,
+                    // будет ли валидироваться время существования
+                    ValidateLifetime = true,
+
+                    // установка ключа безопасности
+                    IssuerSigningKey = JWTOptions.GetSymmetricSecurityKey(),
+                    // валидация ключа безопасности
+                    ValidateIssuerSigningKey = true,
+                };
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ApiUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Roles.User));
+                options.AddPolicy("ApiAdmin", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Roles.Admin));
+            });
+
+            services.SetupIdentity();
+
             services.AddAutoMapper();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -69,6 +112,8 @@ namespace ShopOnWheels.WebAPI
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseMvc();
 
             app.UseSwagger();
@@ -76,6 +121,7 @@ namespace ShopOnWheels.WebAPI
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pecan API V1");
             });
+
         }
     }
 }

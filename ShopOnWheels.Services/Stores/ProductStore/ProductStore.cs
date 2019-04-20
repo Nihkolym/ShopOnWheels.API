@@ -57,7 +57,7 @@ namespace ShopOnWheels.Services.Stores.ProductsStore
         {
             var model = _mapper.Map<Product>(modelDto);
             model.Id = id;
-         
+
             _context.Products.Update(model);
 
             await _context.SaveChangesAsync();
