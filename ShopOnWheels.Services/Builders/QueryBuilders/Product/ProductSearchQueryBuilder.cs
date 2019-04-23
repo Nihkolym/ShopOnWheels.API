@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using ShopOnWheels.Domain;
 using ShopOnWheels.Domain.Models.Product;
+using System.Text.RegularExpressions;
 
 namespace ShopOnWheels.Services.Builders.QueryBuilders.Product
 {
@@ -44,7 +45,8 @@ namespace ShopOnWheels.Services.Builders.QueryBuilders.Product
         {
             if (!string.IsNullOrEmpty(manufacturer))
             {
-                _query = _query.Where(p => string.Equals(p.Manufacturer.ToLower(), manufacturer.ToLower()));
+                Regex regex = new Regex($"{manufacturer}\\w*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                _query = _query.Where(p => regex.IsMatch(p.Manufacturer));
             }
 
             return this;
@@ -54,7 +56,8 @@ namespace ShopOnWheels.Services.Builders.QueryBuilders.Product
         {
             if (!string.IsNullOrEmpty(name))
             {
-                _query = _query.Where(p => string.Equals(p.Name.ToLower(), name.ToLower()));
+                Regex regex = new Regex($"{name}\\w*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                _query = _query.Where(p => regex.IsMatch(p.Name));
             }
 
             return this;
