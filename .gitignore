@@ -1,4 +1,5 @@
 /.vs
+/obj
 /ShopOnWheels.WebAPI/appsettings.json
 /ShopOnWheels.WebAPI/appsettings.Development.json
 /ShopOnWheels.WebAPI/obj
