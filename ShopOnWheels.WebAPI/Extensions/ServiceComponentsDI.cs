@@ -7,6 +7,10 @@ using ShopOnWheels.Services.Services.AuthService;
 using ShopOnWheels.Services.Stores.ProductsStore;
 using ShopOnWheels.Services.Stores.ProductStore;
 using ShopOnWheels.Services.Services.TokenService;
+using ShopOnWheels.Services.Stores.OrderStore;
+using ShopOnWheels.Services.Services.OrderService;
+using ShopOnWheels.Services.Services.ProductService;
+using ShopOnWheels.Services.Builders.QueryBuilders.Product;
 
 namespace ShopOnWheels.WebAPI.Extensions
 {
@@ -17,6 +21,10 @@ namespace ShopOnWheels.WebAPI.Extensions
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IProductStore, ProductStore>();
+            services.AddTransient<IOrderStore, OrderStore>();
+            services.AddTransient<IOrderService, OrderService>();
+            services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<IProductSearchQueryBuilder, ProductSearchQueryBuilder>();
         }
     }
 }

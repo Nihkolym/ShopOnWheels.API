@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using ShopOnWheels.Domain.Models.Base;
 
-namespace ShopOnWheels.Domain.Models.Order
+namespace ShopOnWheels.Domain.Models.Product
 {
     public class Product : BaseGuidEntity
     {
@@ -16,5 +16,6 @@ namespace ShopOnWheels.Domain.Models.Order
         public string Manufacturer { get; set; }
         [Required]
         public double Price { get; set; }
+        public virtual ICollection<ProductList.ProductList> ProductList { get; set; } = new HashSet<ProductList.ProductList>();
     }
 }

@@ -50,7 +50,7 @@ namespace ShopOnWheels.Services.Extensions
 
         public static async Task SeedAdmin(IServiceScope serviceScope)
         {
-            var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<User>> ();
+            var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<User>>();
 
             const string email = Constants.Strings.Admin.Email;
             const string password = Constants.Strings.Admin.Password;
@@ -71,8 +71,25 @@ namespace ShopOnWheels.Services.Extensions
                     userManager.AddToRoleAsync(user, role).Wait();
                 }
             }
-           
+
         }
 
+        public static async Task WarmUpContext(IServiceScope serviceScope)
+        {
+            ShopOnWheelsDbContext context = serviceScope.ServiceProvider.GetRequiredService<ShopOnWheelsDbContext>();
+
+            await context.ProductLists
+                .Include(pl => pl.Order)
+                .FirstOrDefaultAsync();
+
+            await context.Users
+                .Include(u => u.Orders)
+                .FirstOrDefaultAsync();
+        }
+
+        public static async Task AddTestData(ShopOnWheelsDbContext context)
+        {
+
+        }
     }
 }

@@ -42,7 +42,7 @@ namespace ShopOnWheels.WebAPI
                 {
                     {"Bearer", new string[] { }},
                 };
-                c.SwaggerDoc("v1", new Info { Title = "Pecan Internal API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "ShopOnWheels Internal API", Version = "v1" });
                 c.AddSecurityDefinition("Bearer",
                     new ApiKeyScheme()
                     {
@@ -119,7 +119,7 @@ namespace ShopOnWheels.WebAPI
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pecan API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ShopOnWheels API V1");
             });
 
         }

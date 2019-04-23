@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using ShopOnWheels.Domain.Models.Base;
 using ShopOnWheels.Domain.Models.Order;
+using ShopOnWheels.Domain.Models.Product;
+using ShopOnWheels.Domain.Models.ProductList;
 using ShopOnWheels.Domain.Models.User;
 
 namespace ShopOnWheels.Domain
@@ -12,6 +14,8 @@ namespace ShopOnWheels.Domain
     public class ShopOnWheelsDbContext : IdentityDbContext<User>
     {
         public DbSet<Product> Products { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<ProductList> ProductLists { get; set; }
 
         public ShopOnWheelsDbContext(DbContextOptions<ShopOnWheelsDbContext> options) : base(options)
         {
@@ -20,7 +24,7 @@ namespace ShopOnWheels.Domain
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-          
+
             builder.Entity<IdentityUserLogin<string>>().ToTable("AspNetUsers")//I have to declare the table name, otherwise IdentityUser will be created
                 .Property(c => c.ProviderKey).HasMaxLength(36).IsRequired();
 
@@ -63,6 +67,19 @@ namespace ShopOnWheels.Domain
             builder.Entity<User>()
                .Property(p => p.PhoneNumberConfirmed)
                .HasColumnType("bit");
+
+            builder.Entity<Order>()
+                .Property(o => o.IsDeleted)
+                .HasColumnType("bit");
+
+            builder.Entity<Order>()
+                .Property(o => o.IsActive)
+                .HasColumnType("bit");
+
+            builder.Entity<ProductList>()
+               .Property(o => o.IsDeleted)
+               .HasColumnType("bit");
+
             base.OnModelCreating(builder);
 
         }

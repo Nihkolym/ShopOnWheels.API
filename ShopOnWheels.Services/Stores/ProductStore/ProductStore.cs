@@ -7,6 +7,7 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ShopOnWheels.Domain;
 using ShopOnWheels.Domain.Models.Order;
+using ShopOnWheels.Domain.Models.Product;
 using ShopOnWheels.Entities.Models.Product;
 using ShopOnWheels.Services.Stores.ProductStore;
 

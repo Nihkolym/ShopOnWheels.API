@@ -9,7 +9,7 @@ using ShopOnWheels.Domain;
 namespace ShopOnWheels.Domain.Migrations
 {
     [DbContext(typeof(ShopOnWheelsDbContext))]
-    [Migration("20190420180200_Initial")]
+    [Migration("20190421100023_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -129,7 +129,41 @@ namespace ShopOnWheels.Domain.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ShopOnWheels.Domain.Models.Order.Product", b =>
+            modelBuilder.Entity("ShopOnWheels.Domain.Models.Order.Order", b =>
+                {
+                    b.Property<byte[]>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasConversion(new ValueConverter<byte[], byte[]>(v => default(byte[]), v => default(byte[]), new ConverterMappingHints(size: 16)));
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<int?>("Frequency");
+
+                    b.Property<short?>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<short>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ModifiedOn");
+
+                    b.Property<DateTime>("OrderDate");
+
+                    b.Property<DateTime>("OrderDeliver");
+
+                    b.Property<double?>("Total");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("ShopOnWheels.Domain.Models.Product.Product", b =>
                 {
                     b.Property<byte[]>("Id")
                         .ValueGeneratedOnAdd()
@@ -155,6 +189,34 @@ namespace ShopOnWheels.Domain.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("ShopOnWheels.Domain.Models.ProductList.ProductList", b =>
+                {
+                    b.Property<byte[]>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasConversion(new ValueConverter<byte[], byte[]>(v => default(byte[]), v => default(byte[]), new ConverterMappingHints(size: 16)));
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<short>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ModifiedOn");
+
+                    b.Property<byte[]>("OrderId")
+                        .HasConversion(new ValueConverter<byte[], byte[]>(v => default(byte[]), v => default(byte[]), new ConverterMappingHints(size: 16)));
+
+                    b.Property<byte[]>("ProductId")
+                        .HasConversion(new ValueConverter<byte[], byte[]>(v => default(byte[]), v => default(byte[]), new ConverterMappingHints(size: 16)));
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductLists");
                 });
 
             modelBuilder.Entity("ShopOnWheels.Domain.Models.User.User", b =>
@@ -268,6 +330,25 @@ namespace ShopOnWheels.Domain.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ShopOnWheels.Domain.Models.Order.Order", b =>
+                {
+                    b.HasOne("ShopOnWheels.Domain.Models.User.User", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ShopOnWheels.Domain.Models.ProductList.ProductList", b =>
+                {
+                    b.HasOne("ShopOnWheels.Domain.Models.Order.Order", "Order")
+                        .WithMany("ProductList")
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("ShopOnWheels.Domain.Models.Product.Product", "Product")
+                        .WithMany("ProductList")
+                        .HasForeignKey("ProductId");
                 });
 #pragma warning restore 612, 618
         }

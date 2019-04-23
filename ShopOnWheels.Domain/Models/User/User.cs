@@ -18,5 +18,6 @@ namespace ShopOnWheels.Domain.Models.User
         public string LastName { get; set; }
         [MaxLength(36)]
         public string Address { get; set; }
+        public ICollection<Order.Order> Orders { get; set; } = new List<Order.Order>();
     }
 }

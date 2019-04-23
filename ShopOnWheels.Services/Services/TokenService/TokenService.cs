@@ -10,16 +10,26 @@ using ShopOnWheels.WebAPI;
 using ShopOnWheels.Services.Helpers;
 using System.Security.Principal;
 using ShopOnWheels.Domain.Identity;
+using Microsoft.AspNetCore.Identity;
+using ShopOnWheels.Domain.Models.User;
 
 namespace ShopOnWheels.Services.Services.TokenService
 {
     public class TokenService : ITokenService
     {
+        private UserManager<User> _userManager;
+
+        public TokenService(UserManager<User> userManager)
+        {
+            _userManager = userManager;
+        }
 
         public async Task<string> GenerateEncodedToken(string email, ClaimsIdentity identity)
         {
 
             var now = DateTime.UtcNow;
+
+            var user = await _userManager.FindByEmailAsync(email);
 
             var claims = new[]
             {

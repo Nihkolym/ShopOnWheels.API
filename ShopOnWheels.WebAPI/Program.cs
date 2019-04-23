@@ -39,6 +39,14 @@ namespace ShopOnWheels.WebAPI
                 await DatabaseInitializer.EnsureDatabaseInitialized(serviceScope);
             }
 
+            Task.Run(async () =>
+            {
+                using (IServiceScope serviceScope = host.Services.GetService<IServiceScopeFactory>().CreateScope())
+                {
+                    await DatabaseInitializer.WarmUpContext(serviceScope);
+                }
+            });
+
         }
     }
 }
