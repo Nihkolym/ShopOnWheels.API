@@ -83,20 +83,12 @@ namespace ShopOnWheels.Domain
                .HasColumnType("bit");
 
             builder.Entity<Category>()
-                .Property(c => c.Id)
-                .HasColumnType("bit");
-
-            builder.Entity<Category>()
                 .Property(c => c.IsDeleted)
                 .HasColumnType("bit");
 
             builder.Entity<Product>()
                 .Property(c => c.IsCountable)
                 .HasColumnType("bit");
-
-            builder.Entity<Category>()
-               .HasIndex(c => c.Name)
-               .IsUnique();
 
             base.OnModelCreating(builder);
 

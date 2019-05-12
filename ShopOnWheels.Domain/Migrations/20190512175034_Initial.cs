@@ -50,17 +50,17 @@ namespace ShopOnWheels.Domain.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Category",
+                name: "Categories",
                 columns: table => new
                 {
                     Id = table.Column<byte[]>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: false),
-                    IsDeleted = table.Column<short>(nullable: false)
+                    IsDeleted = table.Column<short>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Category", x => x.Id);
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -207,16 +207,16 @@ namespace ShopOnWheels.Domain.Migrations
                     Weight = table.Column<int>(nullable: false),
                     Manufacturer = table.Column<string>(nullable: false),
                     Price = table.Column<double>(nullable: false),
-                    IsCountable = table.Column<short>(nullable: false),
+                    IsCountable = table.Column<short>(type: "bit", nullable: false),
                     CategoryId = table.Column<byte[]>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_Category_CategoryId",
+                        name: "FK_Products_Categories_CategoryId",
                         column: x => x.CategoryId,
-                        principalTable: "Category",
+                        principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -346,7 +346,7 @@ namespace ShopOnWheels.Domain.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Category");
+                name: "Categories");
         }
     }
 }

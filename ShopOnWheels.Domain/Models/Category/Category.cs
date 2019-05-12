@@ -10,6 +10,6 @@ namespace ShopOnWheels.Domain.Models.Category
     {
         [Required]
         public string Name;
-        public ICollection<Product.Product> Products { get; set; } = new List<Product.Product>();
+        public virtual ICollection<Product.Product> Products { get; set; } = new List<Product.Product>();
     }
 }

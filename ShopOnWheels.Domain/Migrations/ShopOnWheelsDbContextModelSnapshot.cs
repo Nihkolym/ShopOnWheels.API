@@ -135,13 +135,14 @@ namespace ShopOnWheels.Domain.Migrations
 
                     b.Property<DateTime>("CreatedOn");
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<short>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("ModifiedOn");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("ShopOnWheels.Domain.Models.Order.Order", b =>
@@ -190,7 +191,8 @@ namespace ShopOnWheels.Domain.Migrations
 
                     b.Property<DateTime>("CreatedOn");
 
-                    b.Property<bool>("IsCountable");
+                    b.Property<short>("IsCountable")
+                        .HasColumnType("bit");
 
                     b.Property<short>("IsDeleted")
                         .HasColumnType("bit");
@@ -366,7 +368,7 @@ namespace ShopOnWheels.Domain.Migrations
             modelBuilder.Entity("ShopOnWheels.Domain.Models.Product.Product", b =>
                 {
                     b.HasOne("ShopOnWheels.Domain.Models.Category.Category", "Category")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
