@@ -11,6 +11,7 @@ using ShopOnWheels.Services.Stores.OrderStore;
 using ShopOnWheels.Services.Services.OrderService;
 using ShopOnWheels.Services.Services.ProductService;
 using ShopOnWheels.Services.Builders.QueryBuilders.Product;
+using ShopOnWheels.Services.Stores.CategoryStore;
 
 namespace ShopOnWheels.WebAPI.Extensions
 {
@@ -24,6 +25,7 @@ namespace ShopOnWheels.WebAPI.Extensions
             services.AddTransient<IOrderStore, OrderStore>();
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<ICategoryStore, CategoryStore>();
             services.AddTransient<IProductSearchQueryBuilder, ProductSearchQueryBuilder>();
         }
     }

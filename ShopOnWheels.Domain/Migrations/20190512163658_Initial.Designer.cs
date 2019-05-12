@@ -9,7 +9,7 @@ using ShopOnWheels.Domain;
 namespace ShopOnWheels.Domain.Migrations
 {
     [DbContext(typeof(ShopOnWheelsDbContext))]
-    [Migration("20190421100023_Initial")]
+    [Migration("20190512163658_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -129,6 +129,23 @@ namespace ShopOnWheels.Domain.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("ShopOnWheels.Domain.Models.Category.Category", b =>
+                {
+                    b.Property<byte[]>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasConversion(new ValueConverter<byte[], byte[]>(v => default(byte[]), v => default(byte[]), new ConverterMappingHints(size: 16)));
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime>("ModifiedOn");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Category");
+                });
+
             modelBuilder.Entity("ShopOnWheels.Domain.Models.Order.Order", b =>
                 {
                     b.Property<byte[]>("Id")
@@ -169,7 +186,13 @@ namespace ShopOnWheels.Domain.Migrations
                         .ValueGeneratedOnAdd()
                         .HasConversion(new ValueConverter<byte[], byte[]>(v => default(byte[]), v => default(byte[]), new ConverterMappingHints(size: 16)));
 
+                    b.Property<byte[]>("CategoryId")
+                        .IsRequired()
+                        .HasConversion(new ValueConverter<byte[], byte[]>(v => default(byte[]), v => default(byte[]), new ConverterMappingHints(size: 16)));
+
                     b.Property<DateTime>("CreatedOn");
+
+                    b.Property<bool>("IsCountable");
 
                     b.Property<short>("IsDeleted")
                         .HasColumnType("bit");
@@ -187,6 +210,8 @@ namespace ShopOnWheels.Domain.Migrations
                     b.Property<int>("Weight");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
                 });
@@ -337,6 +362,14 @@ namespace ShopOnWheels.Domain.Migrations
                     b.HasOne("ShopOnWheels.Domain.Models.User.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ShopOnWheels.Domain.Models.Product.Product", b =>
+                {
+                    b.HasOne("ShopOnWheels.Domain.Models.Category.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

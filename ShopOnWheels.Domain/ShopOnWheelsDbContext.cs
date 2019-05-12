@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using ShopOnWheels.Domain.Models.Base;
+using ShopOnWheels.Domain.Models.Category;
 using ShopOnWheels.Domain.Models.Order;
 using ShopOnWheels.Domain.Models.Product;
 using ShopOnWheels.Domain.Models.ProductList;
@@ -14,6 +15,7 @@ namespace ShopOnWheels.Domain
     public class ShopOnWheelsDbContext : IdentityDbContext<User>
     {
         public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<ProductList> ProductLists { get; set; }
 
@@ -79,6 +81,22 @@ namespace ShopOnWheels.Domain
             builder.Entity<ProductList>()
                .Property(o => o.IsDeleted)
                .HasColumnType("bit");
+
+            builder.Entity<Category>()
+                .Property(c => c.Id)
+                .HasColumnType("bit");
+
+            builder.Entity<Category>()
+                .Property(c => c.IsDeleted)
+                .HasColumnType("bit");
+
+            builder.Entity<Product>()
+                .Property(c => c.IsCountable)
+                .HasColumnType("bit");
+
+            builder.Entity<Category>()
+               .HasIndex(c => c.Name)
+               .IsUnique();
 
             base.OnModelCreating(builder);
 

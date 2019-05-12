@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using ShopOnWheels.Domain.Models.Category;
 using ShopOnWheels.Domain.Models.Order;
 using ShopOnWheels.Domain.Models.Product;
 using ShopOnWheels.Domain.Models.ProductList;
+using ShopOnWheels.Entities.Models.Category;
 using ShopOnWheels.Entities.Models.Order;
 using ShopOnWheels.Entities.Models.Product;
 using ShopOnWheels.Entities.Models.ProductList;
@@ -19,6 +21,8 @@ namespace ShopOnWheels.Services.MapProfile
             CreateMap<Order, OrderDTO>()
                 .ForMember(od => od.Products, opt => opt
                     .MapFrom(o => o.ProductList.Select(y => y.Product).ToList())).ReverseMap();
+
+            CreateMap<Category, CategoryDTO>().ReverseMap();
 
         }
     }

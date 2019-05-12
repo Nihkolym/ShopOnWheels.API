@@ -50,21 +50,17 @@ namespace ShopOnWheels.Domain.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "Category",
                 columns: table => new
                 {
                     Id = table.Column<byte[]>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: false),
-                    IsDeleted = table.Column<short>(type: "bit", nullable: false),
-                    Name = table.Column<string>(nullable: false),
-                    Weight = table.Column<int>(nullable: false),
-                    Manufacturer = table.Column<string>(nullable: false),
-                    Price = table.Column<double>(nullable: false)
+                    IsDeleted = table.Column<short>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.PrimaryKey("PK_Category", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -200,6 +196,32 @@ namespace ShopOnWheels.Domain.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<byte[]>(nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: false),
+                    IsDeleted = table.Column<short>(type: "bit", nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    Weight = table.Column<int>(nullable: false),
+                    Manufacturer = table.Column<string>(nullable: false),
+                    Price = table.Column<double>(nullable: false),
+                    IsCountable = table.Column<short>(nullable: false),
+                    CategoryId = table.Column<byte[]>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Products_Category_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Category",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProductLists",
                 columns: table => new
                 {
@@ -284,6 +306,11 @@ namespace ShopOnWheels.Domain.Migrations
                 name: "IX_ProductLists_ProductId",
                 table: "ProductLists",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_CategoryId",
+                table: "Products",
+                column: "CategoryId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -317,6 +344,9 @@ namespace ShopOnWheels.Domain.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Category");
         }
     }
 }
