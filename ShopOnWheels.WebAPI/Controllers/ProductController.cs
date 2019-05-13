@@ -64,7 +64,7 @@ namespace ShopOnWheels.WebAPI.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> Search(ProductSearchDTO parameters)
+        public async Task<IActionResult> Search([FromQuery] ProductSearchDTO parameters)
         {
             return Ok(await _productService.SearchProducts(parameters));
         }

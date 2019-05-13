@@ -10,7 +10,7 @@ namespace ShopOnWheels.Services.Builders.QueryBuilders.Product
         IProductSearchQueryBuilder SetBaseProductInfo(bool asNoTracking = false);
         IProductSearchQueryBuilder SetName(string name);
         IProductSearchQueryBuilder SetManufacturer(string name);
-        IProductSearchQueryBuilder SetCategory(Guid categoryId);
+        IProductSearchQueryBuilder SetCategory(Guid categoryId)
 
         IProductSearchQueryBuilder SetPrice(double? from, double? to);
     }

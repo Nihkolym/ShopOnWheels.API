@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using ShopOnWheels.Domain.Models.Product;
 using ShopOnWheels.Entities.Models.Product;
 using ShopOnWheels.Services.Builders.QueryBuilders.Product;

@@ -15,7 +15,8 @@ namespace ShopOnWheels.Services.Builders.QueryBuilders.Product
         private IQueryable<Domain.Models.Product.Product> _query;
 
         public static Func<ShopOnWheelsDbContext, IEnumerable<Domain.Models.Product.Product>> SetBaseMenuItemsInfoCompiledQuery = EF.CompileQuery((ShopOnWheelsDbContext c) =>
-            c.Products.Where(o => !o.IsDeleted));
+            
+            c.Products.Include(p => p.Category).Where(o => !o.IsDeleted));
 
         public IProductSearchQueryBuilder SetBaseProductInfo(bool asNoTracking = false)
         {
