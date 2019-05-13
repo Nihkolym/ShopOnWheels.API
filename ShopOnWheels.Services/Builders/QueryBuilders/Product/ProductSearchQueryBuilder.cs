@@ -63,6 +63,16 @@ namespace ShopOnWheels.Services.Builders.QueryBuilders.Product
             return this;
         }
 
+        public IProductSearchQueryBuilder SetCategory(Guid categoryId)
+        {
+            if (categoryId != null)
+            {
+                _query = _query.Where(p => p.Category.Id == categoryId);
+            }
+
+            return this;
+        }
+
         public IProductSearchQueryBuilder SetPrice(double? from, double? to)
         {
             if (from.HasValue && to.HasValue && from.Value <= to.Value)

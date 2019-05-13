@@ -140,6 +140,9 @@ namespace ShopOnWheels.Domain.Migrations
 
                     b.Property<DateTime>("ModifiedOn");
 
+                    b.Property<string>("Name")
+                        .IsRequired();
+
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
@@ -207,7 +210,7 @@ namespace ShopOnWheels.Domain.Migrations
 
                     b.Property<double>("Price");
 
-                    b.Property<int>("Weight");
+                    b.Property<int?>("Weight");
 
                     b.HasKey("Id");
 

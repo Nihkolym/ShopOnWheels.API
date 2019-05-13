@@ -10,7 +10,6 @@ namespace ShopOnWheels.Entities.Models.Product
     {
         [Required]
         public string Name { get; set; }
-        [Required]
         public int Weight { get; set; }
         [Required]
         public string Manufacturer { get; set; }

@@ -52,7 +52,7 @@ namespace ShopOnWheels.WebAPI.Controllers
             }
             else
             {
-                return Ok(jwt);
+                return Ok(new LoginResponse() {Token = jwt });
             }
         }
     }

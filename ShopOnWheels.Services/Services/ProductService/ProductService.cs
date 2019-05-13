@@ -36,6 +36,7 @@ namespace ShopOnWheels.Services.Services.ProductService
                                                       .SetName(parameters.Name)
                                                       .SetManufacturer(parameters.Manufacturer)
                                                       .SetPrice(parameters.From, parameters.To)
+                                                      .SetCategory(parameters.CategoryId)
                                                       .Build();
             return query;
         }

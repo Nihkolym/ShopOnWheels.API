@@ -86,6 +86,15 @@ namespace ShopOnWheels.WebAPI
                 };
             });
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("ApiUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Roles.User));
@@ -114,6 +123,7 @@ namespace ShopOnWheels.WebAPI
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();
+            app.UseCors("CorsPolicy");
             app.UseMvc();
 
             app.UseSwagger();

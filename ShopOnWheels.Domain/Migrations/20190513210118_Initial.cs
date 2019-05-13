@@ -56,7 +56,8 @@ namespace ShopOnWheels.Domain.Migrations
                     Id = table.Column<byte[]>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: false),
-                    IsDeleted = table.Column<short>(type: "bit", nullable: false)
+                    IsDeleted = table.Column<short>(type: "bit", nullable: false),
+                    Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -204,7 +205,7 @@ namespace ShopOnWheels.Domain.Migrations
                     ModifiedOn = table.Column<DateTime>(nullable: false),
                     IsDeleted = table.Column<short>(type: "bit", nullable: false),
                     Name = table.Column<string>(nullable: false),
-                    Weight = table.Column<int>(nullable: false),
+                    Weight = table.Column<int>(nullable: true),
                     Manufacturer = table.Column<string>(nullable: false),
                     Price = table.Column<double>(nullable: false),
                     IsCountable = table.Column<short>(type: "bit", nullable: false),
