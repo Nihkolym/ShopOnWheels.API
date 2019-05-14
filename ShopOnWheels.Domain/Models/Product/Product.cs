@@ -12,6 +12,7 @@ namespace ShopOnWheels.Domain.Models.Product
         [Required]
         public string Name { get; set; }
         public int? Weight { get; set; }
+        public string Image { get; set; }
         [Required]
         public string Manufacturer { get; set; }
         [Required]

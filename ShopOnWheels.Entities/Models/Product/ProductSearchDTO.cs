@@ -8,7 +8,7 @@ namespace ShopOnWheels.Entities.Models.Product
     {
         public string Name { get; set; }
         public string Manufacturer { get; set; }
-        public Guid CategoryId { get; set; }
+        public Guid? CategoryId { get; set; }
         public double? From { get; set; }
         public double? To { get; set; }
     }

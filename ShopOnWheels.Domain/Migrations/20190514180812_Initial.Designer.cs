@@ -9,7 +9,7 @@ using ShopOnWheels.Domain;
 namespace ShopOnWheels.Domain.Migrations
 {
     [DbContext(typeof(ShopOnWheelsDbContext))]
-    [Migration("20190513210118_Initial")]
+    [Migration("20190514180812_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -195,6 +195,8 @@ namespace ShopOnWheels.Domain.Migrations
                         .HasConversion(new ValueConverter<byte[], byte[]>(v => default(byte[]), v => default(byte[]), new ConverterMappingHints(size: 16)));
 
                     b.Property<DateTime>("CreatedOn");
+
+                    b.Property<string>("Image");
 
                     b.Property<short>("IsCountable")
                         .HasColumnType("bit");

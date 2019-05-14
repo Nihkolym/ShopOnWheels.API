@@ -21,6 +21,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using ShopOnWheels.Domain.Identity;
+using ShopOnWheels.WebAPI.Filters;
 
 namespace ShopOnWheels.WebAPI
 {
@@ -52,6 +53,8 @@ namespace ShopOnWheels.WebAPI
                         Type = "apiKey"
                     });
                 c.AddSecurityRequirement(security);
+
+                c.OperationFilter<FileUploadOperation>();
             });
 
             services.AddShopOnWheelsDbContext(Configuration.GetConnectionString("MySQLConnection"));

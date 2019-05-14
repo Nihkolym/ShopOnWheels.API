@@ -206,6 +206,7 @@ namespace ShopOnWheels.Domain.Migrations
                     IsDeleted = table.Column<short>(type: "bit", nullable: false),
                     Name = table.Column<string>(nullable: false),
                     Weight = table.Column<int>(nullable: true),
+                    Image = table.Column<string>(nullable: true),
                     Manufacturer = table.Column<string>(nullable: false),
                     Price = table.Column<double>(nullable: false),
                     IsCountable = table.Column<short>(type: "bit", nullable: false),

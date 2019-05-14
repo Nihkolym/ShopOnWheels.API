@@ -194,6 +194,8 @@ namespace ShopOnWheels.Domain.Migrations
 
                     b.Property<DateTime>("CreatedOn");
 
+                    b.Property<string>("Image");
+
                     b.Property<short>("IsCountable")
                         .HasColumnType("bit");
 

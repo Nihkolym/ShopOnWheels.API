@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShopOnWheels.Entities.Models.Product;
+using ShopOnWheels.Services.Services.FileService;
 using ShopOnWheels.Services.Services.ProductService;
 using ShopOnWheels.Services.Stores.ProductStore;
 
@@ -18,11 +20,13 @@ namespace ShopOnWheels.WebAPI.Controllers
     {
         private readonly IProductStore _productStore;
         private readonly IProductService _productService;
+        private readonly IFileService _fileService;
 
-        public ProductController(IProductStore productStore, IProductService productService)
+        public ProductController(IProductStore productStore, IProductService productService, IFileService fileService)
         {
             _productStore = productStore;
             _productService = productService;
+            _fileService = fileService;
         }
 
         // GET: api/<controller>
@@ -42,9 +46,21 @@ namespace ShopOnWheels.WebAPI.Controllers
         // POST api/<controller>
         [HttpPost]
         [Authorize(Policy = "ApiAdmin")]
-        public async Task<IActionResult> Post([FromBody]ProductDTO value)
+        public async Task<IActionResult> Post([FromForm]ProductDTO value, [FromForm] IFormFile image)
         {
-            return Ok(await _productStore.AddProduct(value));
+            if (image != null)
+            {
+                value.Image = _fileService.GetUniqueFileName(image.FileName);
+            }
+
+            var item = await _productStore.AddProduct(value);
+
+            if (value.Image != null)
+            {
+                _fileService.SaveFile(image, value.Image);
+            }
+
+            return Ok(item);
         }
 
         // PUT api/<controller>/5

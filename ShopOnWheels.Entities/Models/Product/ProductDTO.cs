@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using Newtonsoft.Json;
 using ShopOnWheels.Entities.Models.Base;
 
 namespace ShopOnWheels.Entities.Models.Product
@@ -11,6 +12,7 @@ namespace ShopOnWheels.Entities.Models.Product
         [Required]
         public string Name { get; set; }
         public int Weight { get; set; }
+        public string Image { get; set; }
         [Required]
         public string Manufacturer { get; set; }
         [Required]
