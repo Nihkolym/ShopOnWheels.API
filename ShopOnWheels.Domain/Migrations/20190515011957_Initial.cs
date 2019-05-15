@@ -65,6 +65,26 @@ namespace ShopOnWheels.Domain.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    Id = table.Column<byte[]>(nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: false),
+                    IsDeleted = table.Column<short>(type: "bit", nullable: false),
+                    UserId = table.Column<string>(nullable: false),
+                    OrderDate = table.Column<DateTime>(nullable: false),
+                    OrderDeliver = table.Column<DateTime>(nullable: false),
+                    Frequency = table.Column<int>(nullable: true),
+                    Total = table.Column<double>(nullable: true),
+                    IsActive = table.Column<short>(type: "bit", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -171,32 +191,6 @@ namespace ShopOnWheels.Domain.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Orders",
-                columns: table => new
-                {
-                    Id = table.Column<byte[]>(nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
-                    IsDeleted = table.Column<short>(type: "bit", nullable: false),
-                    UserId = table.Column<string>(nullable: false),
-                    OrderDate = table.Column<DateTime>(nullable: false),
-                    OrderDeliver = table.Column<DateTime>(nullable: false),
-                    Frequency = table.Column<int>(nullable: true),
-                    Total = table.Column<double>(nullable: true),
-                    IsActive = table.Column<short>(type: "bit", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Orders_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
@@ -295,11 +289,6 @@ namespace ShopOnWheels.Domain.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_UserId",
-                table: "Orders",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ProductLists_OrderId",
                 table: "ProductLists",
                 column: "OrderId");
@@ -339,13 +328,13 @@ namespace ShopOnWheels.Domain.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Products");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Categories");

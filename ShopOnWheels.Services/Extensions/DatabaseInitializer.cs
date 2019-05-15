@@ -83,9 +83,9 @@ namespace ShopOnWheels.Services.Extensions
                 .Include(pl => pl.Order)
                 .FirstOrDefaultAsync();
 
-            await context.Users
-                .Include(u => u.Orders)
-                .FirstOrDefaultAsync();
+            //await context.Users
+            //    .Include(u => u.Orders)
+            //    .FirstOrDefaultAsync();
         }
 
         public static async Task AddTestData(ShopOnWheelsDbContext context)

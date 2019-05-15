@@ -9,7 +9,7 @@ using ShopOnWheels.Domain;
 namespace ShopOnWheels.Domain.Migrations
 {
     [DbContext(typeof(ShopOnWheelsDbContext))]
-    [Migration("20190514180812_Initial")]
+    [Migration("20190515011957_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -178,8 +178,6 @@ namespace ShopOnWheels.Domain.Migrations
                         .IsRequired();
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
@@ -360,14 +358,6 @@ namespace ShopOnWheels.Domain.Migrations
                 {
                     b.HasOne("ShopOnWheels.Domain.Models.User.User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("ShopOnWheels.Domain.Models.Order.Order", b =>
-                {
-                    b.HasOne("ShopOnWheels.Domain.Models.User.User", "User")
-                        .WithMany("Orders")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

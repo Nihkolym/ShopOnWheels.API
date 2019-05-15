@@ -8,6 +8,8 @@ using System.Linq;
 using ShopOnWheels.Domain;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using ShopOnWheels.Services.Services.OrderService;
+using ShopOnWheels.Domain.Models.ProductList;
 
 namespace ShopOnWheels.Services.Stores.OrderStore
 {
@@ -16,11 +18,13 @@ namespace ShopOnWheels.Services.Stores.OrderStore
 
         private readonly IMapper _mapper;
         private readonly ShopOnWheelsDbContext _context;
+        private readonly IOrderService _orderService;
 
-        public OrderStore(IMapper mapper, ShopOnWheelsDbContext context)
+        public OrderStore(IMapper mapper, ShopOnWheelsDbContext context, IOrderService orderService)
         {
             _context = context;
             _mapper = mapper;
+            _orderService = orderService;
         }
 
         public async Task<OrderDTO> AddOrder(OrderDTO order)
@@ -28,6 +32,16 @@ namespace ShopOnWheels.Services.Stores.OrderStore
             var model = _mapper.Map<Order>(order);
 
             await _context.AddAsync(model);
+            await _context.SaveChangesAsync();
+
+            var productList = new List<ProductList>();
+
+            foreach (var id in order.Products.Select(p => p.Id).ToArray())
+            {
+                productList.Add(new ProductList() { ProductId = id, OrderId = model.Id });
+            }
+
+            await _context.ProductLists.AddRangeAsync(productList);
             await _context.SaveChangesAsync();
 
             return _mapper.Map<OrderDTO>(model);

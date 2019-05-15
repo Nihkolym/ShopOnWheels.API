@@ -11,8 +11,7 @@ namespace ShopOnWheels.Domain.Models.Order
     {
 
         [Required]
-        [ForeignKey("UserId")]
-        public virtual User.User User { get; set; }
+        public string UserId { get; set; }
 
         [Required]
         public DateTime OrderDate { get; set; }

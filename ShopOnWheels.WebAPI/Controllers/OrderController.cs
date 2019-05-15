@@ -17,11 +17,13 @@ namespace ShopOnWheels.WebAPI.Controllers
     {
         private readonly IOrderStore _orderStore;
         private readonly IOrderService _orderService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public OrderController(IOrderStore orderStore, IOrderService orderService)
+        public OrderController(IOrderStore orderStore, IOrderService orderService, IHttpContextAccessor httpContextAccessor)
         {
             _orderStore = orderStore;
             _orderService = orderService;
+            this._httpContextAccessor = httpContextAccessor;
         }
 
 
@@ -40,6 +42,8 @@ namespace ShopOnWheels.WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]OrderDTO value)
         {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirst("Id").Value;
+            value.UserId = userId;
             return Ok(await _orderStore.AddOrder(value));
         }
 

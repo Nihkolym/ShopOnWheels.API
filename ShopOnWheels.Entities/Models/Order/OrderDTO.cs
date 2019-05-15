@@ -18,6 +18,7 @@ namespace ShopOnWheels.Entities.Models.Order
         public double? Total { get; set; }
 
         public bool? IsActive { get; set; }
+        public string UserId { get; set; }
 
         public virtual List<ProductDTO> Products { get; set; }
     }
