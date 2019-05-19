@@ -14,6 +14,8 @@ namespace ShopOnWheels.Entities.Models.Product
         public int Weight { get; set; }
         public string Image { get; set; }
         [Required]
+        public bool IsCountable { get; set; }
+        [Required]
         public string Manufacturer { get; set; }
         [Required]
         public double Price { get; set; }
