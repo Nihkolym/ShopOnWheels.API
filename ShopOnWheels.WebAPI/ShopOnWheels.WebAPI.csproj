@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ShopOnWheels.Domain\ShopOnWheels.Domain.csproj" />
+    <ProjectReference Include="..\ShopOnWheels.Hubs\ShopOnWheels.Hubs.csproj" />
     <ProjectReference Include="..\ShopOnWheels.Services\ShopOnWheels.Services.csproj" />
   </ItemGroup>
 

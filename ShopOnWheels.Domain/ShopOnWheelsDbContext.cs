@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using ShopOnWheels.Domain.Models.Base;
+using ShopOnWheels.Domain.Models.Box;
 using ShopOnWheels.Domain.Models.Category;
 using ShopOnWheels.Domain.Models.Order;
 using ShopOnWheels.Domain.Models.Product;
@@ -18,6 +19,7 @@ namespace ShopOnWheels.Domain
         public DbSet<Category> Categories { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<ProductList> ProductLists { get; set; }
+        public DbSet<Box> Boxes { get; set; }
 
         public ShopOnWheelsDbContext(DbContextOptions<ShopOnWheelsDbContext> options) : base(options)
         {
@@ -89,6 +91,10 @@ namespace ShopOnWheels.Domain
             builder.Entity<Product>()
                 .Property(c => c.IsCountable)
                 .HasColumnType("bit");
+
+            builder.Entity<Box>()
+               .Property(b => b.IsDeleted)
+               .HasColumnType("bit");
 
             base.OnModelCreating(builder);
 

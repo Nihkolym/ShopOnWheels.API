@@ -13,6 +13,7 @@ using ShopOnWheels.Services.Services.ProductService;
 using ShopOnWheels.Services.Builders.QueryBuilders.Product;
 using ShopOnWheels.Services.Stores.CategoryStore;
 using ShopOnWheels.Services.Services.FileService;
+using ShopOnWheels.Services.Stores.BoxStore;
 
 namespace ShopOnWheels.WebAPI.Extensions
 {
@@ -28,6 +29,7 @@ namespace ShopOnWheels.WebAPI.Extensions
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<ICategoryStore, CategoryStore>();
             services.AddTransient<IFileService, FileService>();
+            services.AddTransient<IBoxStore, BoxStore>();
             services.AddTransient<IProductSearchQueryBuilder, ProductSearchQueryBuilder>();
         }
     }

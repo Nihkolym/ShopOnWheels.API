@@ -30,7 +30,8 @@ namespace ShopOnWheels.WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _orderStore.GetOrders());
+            var userId = _httpContextAccessor.HttpContext.User.FindFirst("Id").Value;
+            return Ok(await _orderStore.GetOrders(userId));
         }
 
         [HttpGet("{id}")]

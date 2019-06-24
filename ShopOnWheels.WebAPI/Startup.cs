@@ -22,6 +22,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using ShopOnWheels.Domain.Identity;
 using ShopOnWheels.WebAPI.Filters;
+using ShopOnWheels.Hubs;
+using ShopOnWheels.WebAPI.HostedServices;
 
 namespace ShopOnWheels.WebAPI
 {
@@ -57,9 +59,13 @@ namespace ShopOnWheels.WebAPI
                 c.OperationFilter<FileUploadOperation>();
             });
 
+            services.AddSignalR();
+
             services.AddShopOnWheelsDbContext(Configuration.GetConnectionString("MySQLConnection"));
 
             services.AddBusinessComponents();
+
+            services.AddHostedService<OrderBoxHostedService>();
 
             services.AddAuthentication(o =>
             {
@@ -126,8 +132,18 @@ namespace ShopOnWheels.WebAPI
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();
-            app.UseCors("CorsPolicy");
+            //app.UseCors("CorsPolicy");
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins("http://localhost:4200")
+                .AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+            });
             app.UseMvc();
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<BoxHub>("/chat");
+            });
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

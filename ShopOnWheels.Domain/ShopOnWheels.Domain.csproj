@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\NewFolder\**" />
+    <EmbeddedResource Remove="Models\NewFolder\**" />
+    <None Remove="Models\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Migrations\20190407181118_Initial.cs" />
     <Compile Remove="Migrations\20190407181951_Initial.cs" />
     <Compile Remove="Migrations\20190407182646_Initial.cs" />
@@ -61,6 +67,8 @@
     <Compile Remove="Migrations\20190515011228_Initial.Designer.cs" />
     <Compile Remove="Migrations\20190515011810_Initial.cs" />
     <Compile Remove="Migrations\20190515011810_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20190515011957_Initial.cs" />
+    <Compile Remove="Migrations\20190515011957_Initial.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

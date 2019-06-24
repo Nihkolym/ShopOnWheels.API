@@ -9,7 +9,7 @@ using ShopOnWheels.Domain;
 namespace ShopOnWheels.Domain.Migrations
 {
     [DbContext(typeof(ShopOnWheelsDbContext))]
-    [Migration("20190515011957_Initial")]
+    [Migration("20190519174921_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -127,6 +127,31 @@ namespace ShopOnWheels.Domain.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("ShopOnWheels.Domain.Models.Box.Box", b =>
+                {
+                    b.Property<byte[]>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasConversion(new ValueConverter<byte[], byte[]>(v => default(byte[]), v => default(byte[]), new ConverterMappingHints(size: 16)));
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<short>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ModifiedOn");
+
+                    b.Property<byte[]>("ProductListId")
+                        .HasConversion(new ValueConverter<byte[], byte[]>(v => default(byte[]), v => default(byte[]), new ConverterMappingHints(size: 16)));
+
+                    b.Property<int>("Weight");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductListId");
+
+                    b.ToTable("Boxes");
                 });
 
             modelBuilder.Entity("ShopOnWheels.Domain.Models.Category.Category", b =>
@@ -360,6 +385,13 @@ namespace ShopOnWheels.Domain.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ShopOnWheels.Domain.Models.Box.Box", b =>
+                {
+                    b.HasOne("ShopOnWheels.Domain.Models.ProductList.ProductList", "ProductList")
+                        .WithMany()
+                        .HasForeignKey("ProductListId");
                 });
 
             modelBuilder.Entity("ShopOnWheels.Domain.Models.Product.Product", b =>

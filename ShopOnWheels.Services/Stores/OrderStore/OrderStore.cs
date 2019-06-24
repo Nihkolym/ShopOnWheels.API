@@ -29,6 +29,11 @@ namespace ShopOnWheels.Services.Stores.OrderStore
 
         public async Task<OrderDTO> AddOrder(OrderDTO order)
         {
+            if (order.Frequency != null)
+            {
+                order.IsActive = true;
+            } 
+
             var model = _mapper.Map<Order>(order);
 
             await _context.AddAsync(model);
@@ -47,11 +52,12 @@ namespace ShopOnWheels.Services.Stores.OrderStore
             return _mapper.Map<OrderDTO>(model);
         }
 
-        public async Task<IEnumerable<OrderDTO>> GetOrders()
+        public async Task<IEnumerable<OrderDTO>> GetOrders(string userId)
         {
             return _mapper.Map<List<OrderDTO>>(_context.Orders
                 .Include(o => o.ProductList)
-                .ThenInclude(pl => pl.Product));
+                .ThenInclude(pl => pl.Product)
+                .Where(o => o.UserId == userId));
 
         }
 
@@ -64,7 +70,7 @@ namespace ShopOnWheels.Services.Stores.OrderStore
 
             await _context.SaveChangesAsync();
 
-            return _mapper.Map<OrderDTO>(model);
+            return await this.GetOrder(id);
         }
 
         public async Task<OrderDTO> DeleteOrder(Guid Id)
@@ -78,7 +84,8 @@ namespace ShopOnWheels.Services.Stores.OrderStore
 
         public async Task<OrderDTO> GetOrder(Guid Id)
         {
-            return _mapper.Map<OrderDTO>(_context.Orders.FirstOrDefault(p => p.Id == Id));
+            return _mapper.Map<OrderDTO>(_context.Orders.Include(o => o.ProductList)
+                .ThenInclude(pl => pl.Product).FirstOrDefault(p => p.Id == Id));
         }
     }
 }

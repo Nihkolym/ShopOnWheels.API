@@ -245,6 +245,28 @@ namespace ShopOnWheels.Domain.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Boxes",
+                columns: table => new
+                {
+                    Id = table.Column<byte[]>(nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: false),
+                    IsDeleted = table.Column<short>(type: "bit", nullable: false),
+                    Weight = table.Column<int>(nullable: false),
+                    ProductListId = table.Column<byte[]>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Boxes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Boxes_ProductLists_ProductListId",
+                        column: x => x.ProductListId,
+                        principalTable: "ProductLists",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -289,6 +311,11 @@ namespace ShopOnWheels.Domain.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Boxes_ProductListId",
+                table: "Boxes",
+                column: "ProductListId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductLists_OrderId",
                 table: "ProductLists",
                 column: "OrderId");
@@ -322,13 +349,16 @@ namespace ShopOnWheels.Domain.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ProductLists");
+                name: "Boxes");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "ProductLists");
 
             migrationBuilder.DropTable(
                 name: "Orders");

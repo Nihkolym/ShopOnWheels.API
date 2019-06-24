@@ -8,7 +8,7 @@ namespace ShopOnWheels.Services.Stores.OrderStore
 {
     public interface IOrderStore
     {
-        Task<IEnumerable<OrderDTO>> GetOrders();
+        Task<IEnumerable<OrderDTO>> GetOrders(string userId);
         Task<OrderDTO> AddOrder(OrderDTO order);
         Task<OrderDTO> UpdateOrder(Guid id, OrderDTO modelDto);
         Task<OrderDTO> DeleteOrder(Guid id);
